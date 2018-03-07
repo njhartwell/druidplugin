@@ -59,6 +59,7 @@ function (angular, _, dateMath, moment, druidSQL) {
       ['hour', moment.duration(1, 'hour')],
       ['day', moment.duration(1, 'day')]
     ];
+    var MAX_GRANULARITY = ['day', moment.duration(1, 'day')];
 
     var filterTemplateExpanders = {
       "selector": _.partialRight(replaceTemplateValues, ['value']),
@@ -649,7 +650,7 @@ function (angular, _, dateMath, moment, druidSQL) {
       */
       var granularityEntry = _.find(GRANULARITIES, function(gEntry) {
         return Math.ceil(intervalSecs/gEntry[1].asSeconds()) <= maxDataPoints;
-      });
+      }) || MAX_GRANULARITY;
 
       console.log("Calculated \"" + granularityEntry[0]  +  "\" granularity [" + Math.ceil(intervalSecs/granularityEntry[1].asSeconds()) +
       " pts]" + " for " + (intervalSecs/60).toFixed(0) + " minutes and max of " + maxDataPoints + " data points");
